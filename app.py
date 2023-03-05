@@ -13,13 +13,12 @@ def save_file(audiofile):
         raise ValueError('Invalid file ' + audiofile.filename)
 
 def transcribe(file_path: str):
-    print('Opening: ' + file_path)
     speech = open(file_path, "rb")
     return openai.Audio.transcribe("whisper-1", speech)
     
 
 @app.route("/", methods=("GET", "POST"))
-def s2t():
+def index():
     if request.method == "POST":
         audiofile = request.files["audiofile"]
         save_file(audiofile)
@@ -29,20 +28,6 @@ def s2t():
     
     # result = request.args.get("result")
     return render_template("index.html")
-
-@app.route("/animal", methods=("GET", "POST"))
-def index():
-    if request.method == "POST":
-        animal = request.form["animal"]
-        response = openai.Completion.create(
-            model="text-davinci-003",
-            prompt=generate_prompt(animal),
-            temperature=0.6,
-        )
-        return render_template("animal.html", result=response.choices[0].text)
-
-    result = request.args.get("result")
-    return render_template("animal.html")
 
 
 def generate_prompt(animal):
