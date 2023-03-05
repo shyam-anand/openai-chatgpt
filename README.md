@@ -11,7 +11,7 @@ This is an speech to text app using the OpenAI API [quickstart tutorial](https:/
 3. Navigate into the project directory
 
    ```bash
-   $ cd openai-quickstart-python
+   $ cd openai-speech-to-text
    ```
 
 4. Create a new virtual environment
