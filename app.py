@@ -6,6 +6,29 @@ from flask import Flask, redirect, render_template, request, url_for
 app = Flask(__name__)
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
+def save_file(audiofile):
+    if audiofile.filename != '':
+        audiofile.save(audiofile.filename)
+    else:
+        raise ValueError('Invalid file ' + audiofile.filename)
+
+def transcribe(file_path: str):
+    print('Opening: ' + file_path)
+    speech = open(file_path, "rb")
+    return openai.Audio.transcribe("whisper-1", speech)
+    
+
+@app.route("/s2t", methods=("GET", "POST"))
+def s2t():
+    if request.method == "POST":
+        audiofile = request.files["audiofile"]
+        save_file(audiofile)
+        transcript = transcribe(audiofile.filename)
+        print(f'transcript: "{transcript.text}"')
+        return render_template("s2t.html", transcript=transcript.text)
+    
+    # result = request.args.get("result")
+    return render_template("s2t.html")
 
 @app.route("/", methods=("GET", "POST"))
 def index():
@@ -33,3 +56,4 @@ Animal: {}
 Names:""".format(
         animal.capitalize()
     )
+
