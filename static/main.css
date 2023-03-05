@@ -41,6 +41,12 @@ form {
   flex-direction: column;
   width: 320px;
 }
+input[type="file"] {
+  padding: 12px 16px;
+  border: 1px solid #10a37f;
+  border-radius: 4px;
+  margin-bottom: 24px;
+}
 input[type="text"] {
   padding: 12px 16px;
   border: 1px solid #10a37f;
@@ -63,4 +69,12 @@ input[type="submit"] {
 .result {
   font-weight: bold;
   margin-top: 40px;
+  margin-left: 40px;
+  margin-left: 40px;
+  text-align: left;
+  border: #202123;
+  border-width: 1px;
+}
+.error {
+  color: red;
 }

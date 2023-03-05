@@ -18,19 +18,19 @@ def transcribe(file_path: str):
     return openai.Audio.transcribe("whisper-1", speech)
     
 
-@app.route("/s2t", methods=("GET", "POST"))
+@app.route("/", methods=("GET", "POST"))
 def s2t():
     if request.method == "POST":
         audiofile = request.files["audiofile"]
         save_file(audiofile)
         transcript = transcribe(audiofile.filename)
         print(f'transcript: "{transcript.text}"')
-        return render_template("s2t.html", transcript=transcript.text)
+        return render_template("index.html", transcript=transcript.text)
     
     # result = request.args.get("result")
-    return render_template("s2t.html")
+    return render_template("index.html")
 
-@app.route("/", methods=("GET", "POST"))
+@app.route("/animal", methods=("GET", "POST"))
 def index():
     if request.method == "POST":
         animal = request.form["animal"]
@@ -39,10 +39,10 @@ def index():
             prompt=generate_prompt(animal),
             temperature=0.6,
         )
-        return redirect(url_for("index", result=response.choices[0].text))
+        return render_template("animal.html", result=response.choices[0].text)
 
     result = request.args.get("result")
-    return render_template("index.html", result=result)
+    return render_template("animal.html")
 
 
 def generate_prompt(animal):
