@@ -1,6 +1,6 @@
 FROM python:3.10
 WORKDIR /usr/src/openai-speech-to-text
-COPY .env .
+COPY .env.example .
 COPY *.py .
 COPY static/* ./static/
 COPY templates/* ./templates/
